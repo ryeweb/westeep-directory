@@ -18,17 +18,17 @@ export function VendorCard({ vendor }: VendorCardProps) {
 
   return (
     <Link href={href}>
-      <div className="p-6 border rounded-lg hover:shadow-lg transition-shadow h-full">
-        <h3 className="text-xl font-semibold mb-2">{vendor.name}</h3>
+      <div className="p-6 bg-main border border-border-soft rounded-lg hover:shadow-lg transition-shadow h-full">
+        <h3 className="text-xl font-semibold text-heading mb-2">{vendor.name}</h3>
 
         {(vendor.city || vendor.state) && (
-          <p className="text-sm text-gray-600 mb-3">
+          <p className="text-sm text-text-muted mb-3">
             {vendor.city}{vendor.city && vendor.state ? ", " : ""}{vendor.state}
           </p>
         )}
 
         {vendor.description && (
-          <p className="text-sm text-gray-700 mb-4 line-clamp-3">
+          <p className="text-sm text-text-main mb-4 line-clamp-3">
             {vendor.description}
           </p>
         )}
@@ -38,7 +38,7 @@ export function VendorCard({ vendor }: VendorCardProps) {
             {vendor.tea_types.slice(0, 3).map((type, idx) => (
               <span
                 key={idx}
-                className="text-xs px-2 py-1 bg-gray-100 rounded-full"
+                className="text-xs px-2 py-1 bg-accent-soft text-accent rounded-full"
               >
                 {type}
               </span>

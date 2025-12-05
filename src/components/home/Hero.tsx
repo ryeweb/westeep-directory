@@ -3,7 +3,7 @@ import { Container } from "../layout/Container";
 
 export function Hero() {
   return (
-    <section className="relative h-[500px] flex items-center justify-center bg-gray-100">
+    <section className="relative h-[500px] flex items-center justify-center bg-soft">
       {/* Background image - assumes /public/images/hero.jpg exists */}
       <div
         className="absolute inset-0 bg-cover bg-center"
@@ -23,7 +23,7 @@ export function Hero() {
           </p>
           <Link
             href="/directory"
-            className="inline-block bg-white text-gray-900 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+            className="inline-block bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-hover transition-colors"
           >
             Explore Directory
           </Link>
