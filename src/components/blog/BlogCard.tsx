@@ -18,9 +18,9 @@ export function BlogCard({ blog }: BlogCardProps) {
 
   return (
     <Link href={href}>
-      <div className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow h-full">
+      <div className="bg-main border border-border-soft rounded-lg overflow-hidden hover:shadow-lg transition-shadow h-full">
         {/* Cover image placeholder */}
-        <div className="h-48 bg-gray-200 relative">
+        <div className="h-48 bg-soft relative">
           {blog.cover_image ? (
             <img
               src={blog.cover_image}
@@ -28,17 +28,17 @@ export function BlogCard({ blog }: BlogCardProps) {
               className="w-full h-full object-cover"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-gray-400">
+            <div className="w-full h-full flex items-center justify-center text-text-muted">
               No image
             </div>
           )}
         </div>
 
         <div className="p-6">
-          <h3 className="text-xl font-semibold mb-2">{blog.title}</h3>
+          <h3 className="text-xl font-semibold text-heading mb-2">{blog.title}</h3>
 
           {date && (
-            <p className="text-xs text-gray-500 mb-3">
+            <p className="text-xs text-text-muted mb-3">
               {new Date(date).toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
@@ -48,7 +48,7 @@ export function BlogCard({ blog }: BlogCardProps) {
           )}
 
           {blog.excerpt && (
-            <p className="text-sm text-gray-700 line-clamp-3">
+            <p className="text-sm text-text-main line-clamp-3">
               {blog.excerpt}
             </p>
           )}
