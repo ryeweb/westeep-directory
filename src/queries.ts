@@ -1,10 +1,41 @@
 import { supabase } from "./supabaseClient";
+import { Vendor, VendorTag } from "./types/vendor";
 
-// Fetch all vendors from the "vendors" table
-export async function getVendors() {
+/**
+ * Transforms raw Supabase vendor data to our Vendor interface
+ * Flattens the vendor_tag_assignments structure to a simple vendor_tags array
+ */
+function transformVendorData(rawData: any[]): Vendor[] {
+  return rawData.map((vendor) => {
+    // Extract tags from the nested structure
+    const vendor_tags: VendorTag[] = vendor.vendor_tag_assignments
+      ?.map((assignment: any) => assignment.vendor_tags)
+      .filter((tag: any) => tag !== null) ?? [];
+
+    // Remove the nested structure and add the flattened tags
+    const { vendor_tag_assignments, ...vendorData } = vendor;
+
+    return {
+      ...vendorData,
+      vendor_tags,
+    };
+  });
+}
+
+// Fetch all vendors from the "vendors" table with their tags
+export async function getVendors(): Promise<Vendor[]> {
   const { data, error } = await supabase
     .from("vendors")
-    .select("*")
+    .select(`
+      *,
+      vendor_tag_assignments(
+        vendor_tags(
+          id,
+          name,
+          slug
+        )
+      )
+    `)
     .order("name");
 
   if (error) {
@@ -12,14 +43,23 @@ export async function getVendors() {
     return [];
   }
 
-  return data ?? [];
+  return transformVendorData(data ?? []);
 }
 
-// Fetch featured vendors
-export async function getFeaturedVendors() {
+// Fetch featured vendors with their tags
+export async function getFeaturedVendors(): Promise<Vendor[]> {
   const { data, error } = await supabase
     .from("vendors")
-    .select("*")
+    .select(`
+      *,
+      vendor_tag_assignments(
+        vendor_tags(
+          id,
+          name,
+          slug
+        )
+      )
+    `)
     .eq("is_featured", true)
     .order("name");
 
@@ -28,7 +68,7 @@ export async function getFeaturedVendors() {
     return [];
   }
 
-  return data ?? [];
+  return transformVendorData(data ?? []);
 }
 
 // Fetch featured blog posts
