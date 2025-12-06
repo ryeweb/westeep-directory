@@ -7,10 +7,21 @@ import { Vendor, VendorTag } from "./types/vendor";
  */
 function transformVendorData(rawData: any[]): Vendor[] {
   return rawData.map((vendor) => {
+    // Debug: Log the raw vendor data structure
+    if (process.env.NODE_ENV === "development") {
+      console.log("Raw vendor data:", JSON.stringify(vendor, null, 2));
+    }
+
     // Extract tags from the nested structure
-    const vendor_tags: VendorTag[] = vendor.vendor_tag_assignments
-      ?.map((assignment: any) => assignment.vendor_tags)
-      .filter((tag: any) => tag !== null) ?? [];
+    const vendor_tags: VendorTag[] =
+      vendor.vendor_tag_assignments
+        ?.map((assignment: any) => assignment.vendor_tags)
+        .filter((tag: any) => tag !== null && tag !== undefined) ?? [];
+
+    // Debug: Log the extracted tags
+    if (process.env.NODE_ENV === "development") {
+      console.log(`Vendor ${vendor.name} tags:`, vendor_tags);
+    }
 
     // Remove the nested structure and add the flattened tags
     const { vendor_tag_assignments, ...vendorData } = vendor;
@@ -41,6 +52,11 @@ export async function getVendors(): Promise<Vendor[]> {
   if (error) {
     console.error("Error fetching vendors:", error);
     return [];
+  }
+
+  // Debug: Log the raw response
+  if (process.env.NODE_ENV === "development") {
+    console.log("getVendors raw data:", JSON.stringify(data, null, 2));
   }
 
   return transformVendorData(data ?? []);
