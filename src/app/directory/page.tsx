@@ -4,6 +4,17 @@ import { getVendors } from "../../queries";
 export default async function DirectoryPage() {
   const vendors = await getVendors();
 
+  // Debug: Log vendor data to see what we're getting
+  if (process.env.NODE_ENV === "development") {
+    console.log("Directory page vendors:", vendors.map(v => ({
+      name: v.name,
+      has_logo: !!v.logo_url,
+      logo_url: v.logo_url,
+      tags_count: v.vendor_tags?.length ?? 0,
+      tags: v.vendor_tags
+    })));
+  }
+
   return (
     <main className="p-8">
       <h1 className="text-3xl font-bold mb-6">Explore Tea Vendors</h1>
