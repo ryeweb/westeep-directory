@@ -1,16 +1,8 @@
 import { VendorCard } from "./VendorCard";
+import { Vendor } from "@/types/vendor";
 
 interface VendorGridProps {
-  vendors: Array<{
-    id: string;
-    name: string;
-    city?: string;
-    state?: string;
-    description?: string;
-    tea_types?: string[];
-    tags?: string[];
-    slug?: string;
-  }>;
+  vendors: Vendor[];
 }
 
 export function VendorGrid({ vendors }: VendorGridProps) {
